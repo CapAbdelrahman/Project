@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>Timups</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+
+</head>
+  
+  <tbody>
+	<table>
+
+		
+			<h1>Your Shopping Cart</h1>
+			<tr>
+                <th>Cart info</th>
+				<th>Product</th>
+				<th>Quantity</th>
+				<th>Remove</th>
+				<th>Unit Price</th>
+				<th>Price</th>
+			</tr>
+			</tbody>
+		
+		<body>
+			{% if cart %}
+				{% for item in cart %}
+					{% with  product=item.product %}
+					    <tr>
+					    	<td>
+					    		<a href="{{product.get_absolute_url}}">
+					    			<img src="
+                                    {{product.image.url}}"
+					    			width="100px">
+					    		</a>
+					    	</td>
+					    	<td>{{product.name}}</td>
+					    	<td>
+					    		<form method="post" action="{% url 'cart:cart_add' product.id %}">
+					    			{% csrf_token %}
+					    			{{item.update_quantity_form.quantity}}
+					    			{{item.update_quantity_form.update}}
+					    			<input type="submit" value="Update">
+					    		</form>
+					    	</td>
+					    	<td>
+					    		<a href="{% url 'cart:cart_remove' product.id%}">
+					    			Remove
+					    		</a>
+					    	</td>
+					    	<td>
+					    		{{item.price}}
+					    	</td>
+					    	<td>
+					    		{{item.total_price}}
+					    	</td>
+					    </tr>
+
+					{% endwith %}
+				{% endfor %}
+			{% else %}
+				<tr >
+					<td colspan="4" style="width:100%;text-align:center;">there is no product !</td>
+				</tr>
+			{% endif %}
+				<tr class="total">
+					<td>
+						Total
+					</td>
+					<td colspan="4"></td>
+					<td class="num">${{cart.get_total_price}}</td>
+				</tr>
+		
+	</table>
+	<p class="text-right">
+		<a href='http://127.0.0.1:8000/'>Continu shopping</a>
+		
+	</p>
+
+<!-- end about section -->
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<!-- popper js -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<!-- bootstrap js -->
+<script src=" {% static 'js/bootstrap.js' %}"></script>
+<!-- owl slider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+</script>
+<!-- custom js -->
+<script src="{% static 'js/custom.js' %}"></script>
+<!-- Google Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+<!-- End Google Map -->
+</body>
+
+</html>
